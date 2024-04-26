@@ -18,12 +18,14 @@ interface Props {
   onChange: (name: string, value: number) => void;
   variant: keyof typeof variants;
   title: string;
+  error?: boolean;
+  id: string;
 }
 
 const INPUT_BASE_CLASSNAME = "text-white bg-transparent font-bold text-2xl focus-visible:outline-none";
 
 export const RangeInput = (props: Props) => {
-  const { max, min, step, value, onChange, title, variant } = props;
+  const { max, min, step, value, onChange, title, variant, error, id } = props;
   const isAmountVariant = variant === variants.amount
 
   // Prevent values less than 1000
@@ -41,12 +43,14 @@ export const RangeInput = (props: Props) => {
   return (
     <div className="relative space-y-4">
       <div className="flex justify-between">
-        <label htmlFor="range-input" className="uppercase text-lg font-light text-white">{title}</label>
-        <div className="border border-white flex items-center justify-center w-[145px]">
+        <label htmlFor={id} className="uppercase text-lg font-light text-white">{title}</label>
+        <label htmlFor={id} className={cn("border border-white flex items-center justify-center w-[145px]", {
+          'border-red-500': Boolean(error),
+        })}>
           <div>
             {isAmountVariant ? (
               <MaskedInput
-                id="range-input"
+                id={id}
                 placeholder="$0.00"
                 type="text"
                 value={value}
@@ -75,16 +79,15 @@ export const RangeInput = (props: Props) => {
               />
             ) : (
               <input
+                id={id}
                 type="text"
                 value={value}
                 onChange={(event) => {
                   const value = event.target.value;
                   
-                  // TODO VALIDATIONS
                   if (value.length > 2) {
                     return;
                   }
-
 
                   onChange(variant, Number(value));
                 }}
@@ -95,7 +98,7 @@ export const RangeInput = (props: Props) => {
               />
             )}
           </div>
-        </div>
+        </label>
       </div>
       <div className="px-[35px] relative space-y-2">
         <Slider
