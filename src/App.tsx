@@ -1,9 +1,26 @@
+import Slider from 'rc-slider';
+
 function App() {
   return (
     <section className="bg-primary-dark p-7 max-w-[450px] w-full">
       <header>
         <h1 className="text-2xl text-center text-white font-bold">Simulá tu crédito</h1>
       </header>
+      <div>
+        <div className="relative">
+          <div className="px-[4px]">
+            <Slider
+              min={3}
+              max={24}
+              step={1}
+            />
+          </div>
+          <div className="flex justify-between text-white font-semibold">
+            <p>3</p>
+            <p>24</p>
+          </div>
+        </div>
+      </div>
       <footer className="flex flex-col">
         <div className="flex justify-between items-center px-4 py-2 text-white font-bold bg-primary-darker">
           <p className="text-lg uppercase">Cuota Fija por mes</p>
@@ -16,7 +33,6 @@ function App() {
             </button>
           </div>
           <div className="flex w-[105px]">
-
             <button type="button" className="bg-primary-light px-1 uppercase text-white font-semibold text-xs hover:shadow-xl transition-all">
               Ver Detalle de Cuotas
             </button>
