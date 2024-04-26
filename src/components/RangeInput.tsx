@@ -1,4 +1,4 @@
-import React from 'react';
+import { memo } from 'react';
 import Slider from 'rc-slider';
 import { formatNumberToCurrency } from '../libs/currency';
 import { cn } from '../libs/common';
@@ -24,7 +24,7 @@ interface Props {
 
 const INPUT_BASE_CLASSNAME = "text-white bg-transparent font-bold text-2xl focus-visible:outline-none border border-white text-center w-[145px]";
 
-export const RangeInput = (props: Props) => {
+export const RangeInput = memo((props: Props) => {
   const { max, min, step, value, onChange, title, variant, error, id } = props;
   const isAmountVariant = variant === variants.amount
 
@@ -125,4 +125,4 @@ export const RangeInput = (props: Props) => {
       </div>
     </div>
   );
-};
+});
