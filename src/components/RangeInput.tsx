@@ -108,6 +108,7 @@ export const RangeInput = (props: Props) => {
           <p
             className={cn({
               '-translate-x-2/4': isAmountVariant,
+              '-ml-[4px]': !isAmountVariant,
             })}
           >
             {isAmountVariant ? formatNumberToCurrency(min, false) : min }
@@ -115,6 +116,7 @@ export const RangeInput = (props: Props) => {
           <p
             className={cn({
               'translate-x-2/4': isAmountVariant,
+              '-mr-[10px]': !isAmountVariant,
             })}
           >
             {isAmountVariant ? formatNumberToCurrency(max, false) : max }
