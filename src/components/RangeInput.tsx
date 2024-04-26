@@ -103,6 +103,7 @@ export const RangeInput = memo((props: Props) => {
               onChange(variant, value)
             }
           }}
+          aria-hidden="true"
         />
         <div className="flex justify-between text-white font-semibold">
           <p
