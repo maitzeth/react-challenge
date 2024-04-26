@@ -2,6 +2,18 @@ import { RangeInput } from './components';
 import { useState } from 'react';
 import { formatNumberToCurrency, calculateInstallmentTotal } from './libs/currency';
 
+const AMOUNT_CONFIG = {
+  max: 50_000,
+  min: 5000,
+  step: 500,
+};
+
+const TERM_CONFIG = {
+  max: 24,
+  min: 3,
+  step: 1,
+};
+
 function App() {
   const [values, setValues] = useState({
     amount: 5000,
@@ -27,8 +39,8 @@ function App() {
         <h1 className="text-2xl text-center text-white font-bold">Simulá tu crédito</h1>
       </header>
       <div className="space-y-8">
-        <RangeInput title="Monto total" variant="amount" max={50_000_0} min={5000} value={values.amount} step={500} onChange={handleChange} />
-        <RangeInput title="Plazo" variant="term" max={24} min={3} value={values.term} step={1} onChange={handleChange} />
+        <RangeInput title="Monto total" variant="amount" max={AMOUNT_CONFIG.max} min={AMOUNT_CONFIG.min} value={values.amount} step={AMOUNT_CONFIG.step} onChange={handleChange} />
+        <RangeInput title="Plazo" variant="term" max={TERM_CONFIG.max} min={TERM_CONFIG.min} value={values.term} step={TERM_CONFIG.step} onChange={handleChange} />
       </div>
       <footer className="flex flex-col">
         <div className="flex justify-between items-center px-4 py-2 text-white font-bold bg-primary-darker">

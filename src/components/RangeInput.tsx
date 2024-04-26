@@ -41,11 +41,12 @@ export const RangeInput = (props: Props) => {
   return (
     <div className="relative space-y-4">
       <div className="flex justify-between">
-        <h2 className="uppercase text-lg font-light text-white">{title}</h2>
+        <label htmlFor="range-input" className="uppercase text-lg font-light text-white">{title}</label>
         <div className="border border-white flex items-center justify-center w-[145px]">
           <div>
             {isAmountVariant ? (
               <MaskedInput
+                id="range-input"
                 placeholder="$0.00"
                 type="text"
                 value={value}
