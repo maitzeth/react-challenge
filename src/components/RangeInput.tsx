@@ -1,7 +1,7 @@
 import React from 'react';
 import Slider from 'rc-slider';
 import { formatNumberToCurrency } from '../libs/currency';
-import { cn, getNumberLength, calculateInputWidth } from '../libs/common';
+import { cn } from '../libs/common';
 import MaskedInput from 'react-text-mask';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 
@@ -22,7 +22,7 @@ interface Props {
   id: string;
 }
 
-const INPUT_BASE_CLASSNAME = "text-white bg-transparent font-bold text-2xl focus-visible:outline-none";
+const INPUT_BASE_CLASSNAME = "text-white bg-transparent font-bold text-2xl focus-visible:outline-none border border-white text-center w-[145px]";
 
 export const RangeInput = (props: Props) => {
   const { max, min, step, value, onChange, title, variant, error, id } = props;
@@ -44,61 +44,53 @@ export const RangeInput = (props: Props) => {
     <div className="relative space-y-4">
       <div className="flex justify-between">
         <label htmlFor={id} className="uppercase text-lg font-light text-white">{title}</label>
-        <label htmlFor={id} className={cn("border border-white flex items-center justify-center w-[145px]", {
-          'border-red-500': Boolean(error),
-        })}>
-          <div>
-            {isAmountVariant ? (
-              <MaskedInput
-                id={id}
-                placeholder="$0.00"
-                type="text"
-                value={value}
-                onChange={({ target: { value } }) => {
-                  const amount = value.split('$').pop().split('.').join('');
-                  const parsedVal = Number(amount);
-                  onChange(variants.amount, parsedVal);
-                }}
-                mask={
-                  createNumberMask({
-                    prefix: '$',
-                    suffix: '',
-                    includeThousandsSeparator: true,
-                    thousandsSeparatorSymbol: '.',
-                    allowDecimal: false,
-                    decimalSymbol: ',',
-                    integerLimit: String(max).length,
-                    allowNegative: false,
-                    allowLeadingZeroes: true,
-                  })
-                }
-                className={INPUT_BASE_CLASSNAME}
-                style={{
-                  width: calculateInputWidth(getNumberLength(value))
-                }}
-              />
-            ) : (
-              <input
-                id={id}
-                type="text"
-                value={value}
-                onChange={(event) => {
-                  const value = event.target.value;
-                  
-                  if (value.length > 2) {
-                    return;
-                  }
+        {isAmountVariant ? (
+          <MaskedInput
+            id={id}
+            placeholder="$0.00"
+            type="text"
+            value={value}
+            onChange={({ target: { value } }) => {
+              const amount = value.split('$').pop().split('.').join('');
+              const parsedVal = Number(amount);
+              onChange(variants.amount, parsedVal);
+            }}
+            mask={
+              createNumberMask({
+                prefix: '$',
+                suffix: '',
+                includeThousandsSeparator: true,
+                thousandsSeparatorSymbol: '.',
+                allowDecimal: false,
+                decimalSymbol: ',',
+                integerLimit: String(max).length,
+                allowNegative: false,
+                allowLeadingZeroes: true,
+              })
+            }
+            className={cn(INPUT_BASE_CLASSNAME, {
+              'border-red-500': Boolean(error),
+            })}
+          />
+        ) : (
+          <input
+            id={id}
+            type="text"
+            value={value}
+            onChange={(event) => {
+              const value = event.target.value;
+              
+              if (value.length > 2) {
+                return;
+              }
 
-                  onChange(variant, Number(value));
-                }}
-                className={INPUT_BASE_CLASSNAME}
-                style={{
-                  width: calculateInputWidth(getNumberLength(value), false),
-                }}
-              />
-            )}
-          </div>
-        </label>
+              onChange(variant, Number(value));
+            }}
+            className={cn(INPUT_BASE_CLASSNAME, {
+              'border-red-500': Boolean(error),
+            })}
+          />
+        )}
       </div>
       <div className="px-[35px] relative space-y-2">
         <Slider
@@ -116,6 +108,7 @@ export const RangeInput = (props: Props) => {
           <p
             className={cn({
               '-translate-x-2/4': isAmountVariant,
+              '-ml-[4px]': !isAmountVariant,
             })}
           >
             {isAmountVariant ? formatNumberToCurrency(min, false) : min }
@@ -123,6 +116,7 @@ export const RangeInput = (props: Props) => {
           <p
             className={cn({
               'translate-x-2/4': isAmountVariant,
+              '-mr-[10px]': !isAmountVariant,
             })}
           >
             {isAmountVariant ? formatNumberToCurrency(max, false) : max }

@@ -92,8 +92,8 @@ function App() {
       </div>
       <footer className="flex flex-col">
         <div className="flex justify-between items-center px-4 py-2 text-white font-bold bg-primary-darker">
-          <p className="text-lg uppercase">Cuota Fija por mes</p>
-          <p className="text-3xl">{dolarCurrency}</p>
+          <p className="text-base md:text-lg uppercase">Cuota Fija por mes</p>
+          <p className="text-2xl md:text-3xl">{dolarCurrency}</p>
         </div>
         <div className="flex gap-2">
           <div className="flex-1">
