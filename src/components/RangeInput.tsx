@@ -1,7 +1,9 @@
 import React from 'react';
 import Slider from 'rc-slider';
 import { formatNumberToCurrency } from '../libs/currency';
-import { cn } from '../libs/common';
+import { cn, getNumberLength, calculateInputWidth } from '../libs/common';
+import MaskedInput from 'react-text-mask';
+import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 
 const variants = {
   term: 'term',
@@ -17,6 +19,8 @@ interface Props {
   variant: keyof typeof variants;
   title: string;
 }
+
+const INPUT_BASE_CLASSNAME = "text-white bg-transparent font-bold text-2xl focus-visible:outline-none";
 
 export const RangeInput = (props: Props) => {
   const { max, min, step, value, onChange, title, variant } = props;
@@ -39,24 +43,56 @@ export const RangeInput = (props: Props) => {
       <div className="flex justify-between">
         <h2 className="uppercase text-lg font-light text-white">{title}</h2>
         <div className="border border-white flex items-center justify-center w-[145px]">
-          {/* <div className="-mr-[10px]"> */}
           <div>
-            <input
-              type="text"
-              value={value}
-              onChange={(event) => {
-                const value = event.target.value;
-                
-                // TODO VALIDATIONS
-                if (value.length > 2) {
-                  return;
+            {isAmountVariant ? (
+              <MaskedInput
+                placeholder="$0.00"
+                type="text"
+                value={value}
+                onChange={({ target: { value } }) => {
+                  const amount = value.split('$').pop().split('.').join('');
+                  const parsedVal = Number(amount);
+                  onChange(variants.amount, parsedVal);
+                }}
+                mask={
+                  createNumberMask({
+                    prefix: '$',
+                    suffix: '',
+                    includeThousandsSeparator: true,
+                    thousandsSeparatorSymbol: '.',
+                    allowDecimal: false,
+                    decimalSymbol: ',',
+                    integerLimit: String(max).length,
+                    allowNegative: false,
+                    allowLeadingZeroes: true,
+                  })
                 }
+                className={INPUT_BASE_CLASSNAME}
+                style={{
+                  width: calculateInputWidth(getNumberLength(value))
+                }}
+              />
+            ) : (
+              <input
+                type="text"
+                value={value}
+                onChange={(event) => {
+                  const value = event.target.value;
+                  
+                  // TODO VALIDATIONS
+                  if (value.length > 2) {
+                    return;
+                  }
 
 
-                onChange(variant, Number(value));
-              }}
-              className="text-white bg-transparent font-bold text-2xl w-[30px]"
-            />
+                  onChange(variant, Number(value));
+                }}
+                className={INPUT_BASE_CLASSNAME}
+                style={{
+                  width: calculateInputWidth(getNumberLength(value), false),
+                }}
+              />
+            )}
           </div>
         </div>
       </div>

@@ -17,6 +17,7 @@ function App() {
     });
   };
 
+  
   const total = calculateInstallmentTotal(values.amount, values.term);
   const dolarCurrency = formatNumberToCurrency(total);
 
@@ -26,7 +27,7 @@ function App() {
         <h1 className="text-2xl text-center text-white font-bold">Simulá tu crédito</h1>
       </header>
       <div className="space-y-8">
-        <RangeInput title="Monto total" variant="amount" max={50_000} min={5000} value={values.amount} step={1000} onChange={handleChange} />
+        <RangeInput title="Monto total" variant="amount" max={50_000_0} min={5000} value={values.amount} step={500} onChange={handleChange} />
         <RangeInput title="Plazo" variant="term" max={24} min={3} value={values.term} step={1} onChange={handleChange} />
       </div>
       <footer className="flex flex-col">
