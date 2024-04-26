@@ -1,7 +1,6 @@
 import { RangeInput } from './components';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { formatNumberToCurrency, calculateInstallmentTotal } from './libs/currency';
-import { z } from "zod";
 
 const AMOUNT_CONFIG = {
   max: 50_000,
@@ -31,7 +30,7 @@ function App() {
   const isErrorsList = Object.values(errors);
   const isFormValid = !isErrorsList.includes(true);
 
-  const handleChange = (name: string, val: number) => {
+  const handleChange = useCallback((name: string, val: number) => {
     setValues((prev) => {
       return {
         ...prev,
@@ -56,7 +55,7 @@ function App() {
         };
       });
     }
-  };
+  }, []);
   
   const total = calculateInstallmentTotal(values.amount, values.term);
   const dolarCurrency = formatNumberToCurrency(isFormValid ? total : 0);
