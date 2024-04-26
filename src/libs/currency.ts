@@ -3,6 +3,10 @@
  * Calculates the total installment amount given the total amount and the number of terms
  */
 export const calculateInstallmentTotal = (total: number, terms: number) => {
+  if (total === 0 && terms === 0) {
+    return 0;
+  }
+
   return parseFloat((total / terms).toFixed(2))
 }
 
